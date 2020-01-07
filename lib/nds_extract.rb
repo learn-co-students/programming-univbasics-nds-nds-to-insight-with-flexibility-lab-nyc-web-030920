@@ -37,8 +37,8 @@ def movies_with_director_key(name, movies_collection)
   
   movies_of_director = []
   counter = 0
-  movie_with_director_name(name, )
-  
+  movies_of_director << movie_with_director_name(name,movies_collection)
+  movies_of_director
 
 end
   # GOAL: For each Hash in an Array (movies_collection), provide a collection
