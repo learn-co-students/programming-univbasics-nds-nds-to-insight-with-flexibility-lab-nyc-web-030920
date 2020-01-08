@@ -1,3 +1,14 @@
+def movies_with_director_key(name, movies_collection)
+
+  movies_of_director = []
+  counter = 0
+  while counter < movies_collection.length do
+    
+ movies_of_director << movie_with_director_name(name, movies_collection[counter])
+  counter += 1
+
+end
+  movies_of_director
 # Getting Insight from Nested Data Structures (Flexibly)
 
 ## Learning Goals
