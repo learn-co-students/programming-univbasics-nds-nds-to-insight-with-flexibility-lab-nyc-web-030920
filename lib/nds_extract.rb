@@ -34,6 +34,7 @@ end
 # Your code after this point
 
 def movies_with_director_key(name, movies_collection)
+  
   # GOAL: For each Hash in an Array (movies_collection), provide a collection
   # of movies and a directors name to the movie_with_director_name method
   # and accumulate the returned Array of movies into a new Array that's
@@ -48,7 +49,17 @@ def movies_with_director_key(name, movies_collection)
   # Array of Hashes where each Hash represents a movie; however, they should all have a
   # :director_name key. This addition can be done by using the provided
   # movie_with_director_name method
+  result = []
+  movie = 0
+
+  while movie < movies_collection.length do
+    movie_data = movies_collection[movie]
+    result << movie_with_director_name(name, movie_data)
+    movie += 1
+  end
+  result
 end
+
 
 
 def gross_per_studio(collection)
@@ -63,6 +74,21 @@ def gross_per_studio(collection)
   #
   # Hash whose keys are the studio names and whose values are the sum
   # total of all the worldwide_gross numbers for every movie in the input Hash
+  studio_money = {}
+  movie = 0
+
+  while movie < collection.length do
+    
+
+    if !studio_money[collection[movie][:studio]]
+      studio_money[collection[movie][:studio]] = collection[movie][:worldwide_gross]
+    else
+      studio_money[collection[movie][:studio]] += collection[movie][:worldwide_gross]
+    end
+    movie += 1
+  end
+
+  studio_money
 end
 
 def movies_with_directors_set(source)
@@ -76,6 +102,16 @@ def movies_with_directors_set(source)
   #
   # Array of Arrays containing all of a director's movies. Each movie will need
   # to have a :director_name key added to it.
+  director = 0
+  directors_movies_array = []
+
+  while director < source.length do
+    director_name = source[director][:name]
+    directors_movies = source[director][:movies]
+    directors_movies_array << movies_with_director_key(director_name, directors_movies)
+    director += 1
+  end
+  directors_movies_array
 end
 
 # ----------------    End of Your Code Region --------------------
