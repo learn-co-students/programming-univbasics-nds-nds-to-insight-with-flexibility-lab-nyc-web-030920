@@ -1,6 +1,7 @@
 # Provided, don't edit
 require 'directors_database'
 
+
 # A method we're giving you. This "flattens"  Arrays of Arrays so: [[1,2],
 # [3,4,5], [6]] => [1,2,3,4,5,6].
 
@@ -48,8 +49,20 @@ def movies_with_director_key(name, movies_collection)
   # Array of Hashes where each Hash represents a movie; however, they should all have a
   # :director_name key. This addition can be done by using the provided
   # movie_with_director_name method
-end
+  
 
+  result = []
+  index = 0
+  while index < movies_collection.count do
+
+    result[index] = movie_with_director_name(name, movies_collection[index])
+    
+    index += 1
+  end
+  
+  p result
+  
+end
 
 def gross_per_studio(collection)
   # GOAL: Given an Array of Hashes where each Hash represents a movie,
@@ -63,6 +76,30 @@ def gross_per_studio(collection)
   #
   # Hash whose keys are the studio names and whose values are the sum
   # total of all the worldwide_gross numbers for every movie in the input Hash
+  
+  result_hash = {} #returning only one hash, no arrays. keys are studio names. values are totals.
+  outer_index = 0
+  while outer_index < collection.count do
+    
+    studio_gross_total = 0
+    
+    check_index = 0
+    while check_index < collection.count do
+    
+      if collection[outer_index][:studio] == collection[check_index][:studio]
+        studio_gross_total += collection[check_index][:worldwide_gross]
+      end
+      
+      check_index += 1
+    end
+    
+    result_hash["#{collection[outer_index][:studio]}"] = studio_gross_total
+    
+    outer_index += 1
+  end
+  
+  return result_hash
+  
 end
 
 def movies_with_directors_set(source)
@@ -76,6 +113,17 @@ def movies_with_directors_set(source)
   #
   # Array of Arrays containing all of a director's movies. Each movie will need
   # to have a :director_name key added to it.
+  
+  movies_aoa = []
+  index = 0
+  while index < source.count do
+    movies_aoa[index] = movies_with_director_key(source[index][:name], source[index][:movies])
+    
+    index += 1
+  end
+  
+  return movies_aoa
+  
 end
 
 # ----------------    End of Your Code Region --------------------
