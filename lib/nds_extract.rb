@@ -31,66 +31,76 @@ def movie_with_director_name(director_name, movie_data)
 end
 
 
-# Your code after this point
+################### Your code after this point
 
 def movies_with_director_key(name, movies_collection)
-  index = 0
-  new_movie_collection = []
-    while index < movies_collection.length do
-      name = movie_with_director_name(name, movies_collection[index])
-      new_movie_collection.push(name)
-      index += 1
-    end
+  index = 0 
 
-  new_array = []
-  counter = 0
-    while counter < new_movie_collection.length do 
-      new_array.push(new_movie_collection[counter])
-      counter += 1
+  while index < movies_collection.length do 
+    movies_collection[index][:director_name] = name
+    index += 1
   end 
-  puts new_array
-end
 
+  movies_collection
+end 
 
 def gross_per_studio(collection)
   index = 0 
-  list_of_studios = []
-  result = {}
+  studio_list = []
+  studio_hash = {}
+  studio_gross = ""
 
-    while index < collection.length do
-      if is_unique(list_of_studios, collection[index][:studio])
-        list_of_studios.push(collection[index][:studio])
-      end
-      index += 1
+
+  while index < collection.length do
+    studio_list.push(collection[index][:studio])
+    index += 1
+  end
+
+  index = 0 
+  while index < studio_list.length do 
+    studio_hash[studio_list[index]] = 0
+
+    counter = 0
+    while counter < collection.length do 
+      if collection[counter][:studio] == studio_list[index]
+        studio_hash[studio_list[index]] += collection[counter][:worldwide_gross]
+      end 
+      counter += 1
+    end 
+    index += 1
+  end 
+
+ studio_hash
+
+end 
+
+def movies_with_directors_set(test_data)
+  array = []
+  index = 0
+
+  while index < test_data.length do 
+    counter = 0
+
+    while counter < test_data[index][:movies].length do
+      test_data[index][:movies][counter][:director_name] = test_data[index][:name]
+      counter += 1
     end 
 
-    index = 0 
-    while index < list_of_studios.length do 
-      counter = 0
-      studio_gross = 0
-      while counter < collection.length do
-        if list_of_studios[index] == collection[counter][:studio]
-          studio_gross += collection[counter][:worldwide_gross]
-        end
-        result[collection][counter][:studio] = studio_gross
-        counter += 1
-      end
-      index += 1 
-    end 
-    result
-end
+    index += 1
+  end 
 
-def movies_with_directors_set(source)
-  # GOAL: For each director, find their :movies Array and stick it in a new Array
-  #
-  # INPUT:
-  # * source: An Array of Hashes containing director information including
-  # :name and :movies
-  #
-  # RETURN:
-  #
-  # Array of Arrays containing all of a director's movies. Each movie will need
-  # to have a :director_name key added to it.
+  index = 0
+
+  while index < test_data.length do 
+    counter = 0
+    while counter < test_data[index][:movies].length do
+      array.push([test_data[index][:movies][counter]])
+      counter += 1
+    end 
+    index += 1
+  end 
+
+  array
 end
 
 # ----------------    End of Your Code Region --------------------
