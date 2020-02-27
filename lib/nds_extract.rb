@@ -1,3 +1,4 @@
+require 'pry'
 # Provided, don't edit
 require 'directors_database'
 
@@ -21,13 +22,9 @@ def flatten_a_o_a(aoa)
 end
 
 def movie_with_director_name(director_name, movie_data)
-  { 
-    :title => movie_data[:title],
-    :worldwide_gross => movie_data[:worldwide_gross],
-    :release_year => movie_data[:release_year],
-    :studio => movie_data[:studio],
-    :director_name => director_name
-  }
+  new_movie = movie_data
+  new_movie[:director_name] = director_name
+  return new_movie
 end
 
 
@@ -48,6 +45,10 @@ def movies_with_director_key(name, movies_collection)
   # Array of Hashes where each Hash represents a movie; however, they should all have a
   # :director_name key. This addition can be done by using the provided
   # movie_with_director_name method
+  new_aoh = []
+  movies_collection.each do |hash|
+    new_aoh << movie_with_director_name(name, hash)
+  end
 end
 
 
@@ -63,6 +64,17 @@ def gross_per_studio(collection)
   #
   # Hash whose keys are the studio names and whose values are the sum
   # total of all the worldwide_gross numbers for every movie in the input Hash
+  gross_hash = {}
+  collection.each do |hash|
+    if gross_hash[hash[:studio]] 
+      hold = gross_hash[hash[:studio]]
+      hold += hash[:worldwide_gross]
+    else
+      hold = hash[:worldwide_gross]
+    end
+    gross_hash[hash[:studio]] = hold
+  end
+  return gross_hash
 end
 
 def movies_with_directors_set(source)
@@ -76,6 +88,14 @@ def movies_with_directors_set(source)
   #
   # Array of Arrays containing all of a director's movies. Each movie will need
   # to have a :director_name key added to it.
+  new_array = []
+  source.each_with_index do |hash, index|
+    new_array << hash[:movies]
+    new_array[index].each do |hash2|
+      movie_with_director_name(hash[:name], hash2)
+    end
+  end
+  return new_array
 end
 
 # ----------------    End of Your Code Region --------------------
