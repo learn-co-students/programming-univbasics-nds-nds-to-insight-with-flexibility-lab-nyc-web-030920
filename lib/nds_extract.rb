@@ -67,31 +67,44 @@ def gross_per_studio(collection)
   # INPUT:
   # * collection: Array of Hashes where each Hash where each Hash represents a movie
   #
-  new_array = []
-  index = 0
-  while index < collection.length
-  new_array << collection[index][:studio]
-    index += 1
-end
-  studio_array = new_array.uniq
-  studio_index = 0 
-  studio_key_hash = {}
-  while studio_index < studio_array.length do 
-    studio_key_hash[studio_array[studio_index]] = 0
-    studio_index += 1
+#   new_array = []
+#   index = 0
+#   while index < collection.length
+#   new_array << collection[index][:studio]
+#     index += 1
+# end
+#   studio_array = new_array.uniq
+#   studio_index = 0 
+#   studio_key_hash = {}
+#   while studio_index < studio_array.length do 
+#     studio_key_hash[studio_array[studio_index]] = 0
+#     # studio_index += 1
+#   # end
+#   sum_index = 0 
+#     while sum_index < collection.length do 
+#       if collection[sum_index][:studio] == studio_array[sum_index]
+#         studio_key_hash[studio_array[sum_index]] += collection[sum_index][:worldwide_gross]
+#     end
+#       sum_index += 1 
+#     end
+#     studio_index += 1
+#   end
+#     studio_key_hash
+#   # RETURN:
+#   #
+#   # Hash whose keys are the studio names and whose values are the sum
+#   # total of all the worldwide_gross numbers for every movie in the input Hash
+movie_total = {}
+movie = 0
+while movie < collection.length do 
+  if !movie_total[collection[movie][:studio]]
+    movie_total[collection[movie][:studio]] = collection[movie][:worldwide_gross]
+  else 
+    movie_total[collection[movie][:studio]] += collection[movie][:worldwide_gross]
   end
-  sum_index = 0 
-    while sum_index < collection.length do 
-      if collection[sum_index][:studio] == studio_key_hash[:studio]
-        studio_key_hash[:studio] += collection[sum_index][:worldwide_gross]
-    end
-      sum_index += 1 
-    end
-    studio_key_hash
-  # RETURN:
-  #
-  # Hash whose keys are the studio names and whose values are the sum
-  # total of all the worldwide_gross numbers for every movie in the input Hash
+  movie += 1
+end
+movie_total
 end
 
 def movies_with_directors_set(source)
@@ -107,8 +120,14 @@ title_index = 0
 new_array = [] 
   while index < source.length do
     while title_index < source[index][:movies].length do 
-      new_hash = {:title => source[index][:movies][title_index][:title] , 
-      :director_name => source[index][:name]}
+      # source[index][:name]
+      # source[index][:movies][title_index][:title]
+      # new_hash = {:title => source[index][:movies][title_index][:title] , 
+      # :worldwide_gross=>source[index][:movies][title_index][:worldwide_gross], 
+      # :release_year=>source[index][:movies][title_index][:worldwide_gross], 
+      # :studio=>source[index][:movies][title_index][:worldwide_gross], 
+      # :director_name => source[index][:name]} 
+            new_hash = movie_with_director_name(source[index][:name], source[index][:movies][title_index])
       new_array << [new_hash]
       title_index += 1
     end
@@ -119,8 +138,10 @@ new_array = []
   #
   # Array of Arrays containing all of a director's movies. Each movie will need
   # to have a :director_name key added to it.
+
   new_array
 end
+
 
 # ----------------    End of Your Code Region --------------------
 # Don't edit the following code! Make the methods above work with this method
