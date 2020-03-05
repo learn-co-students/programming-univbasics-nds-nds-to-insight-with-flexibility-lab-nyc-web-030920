@@ -5,6 +5,7 @@ require 'directors_database'
 # [3,4,5], [6]] => [1,2,3,4,5,6].
 
 def flatten_a_o_a(aoa)
+  a
   result = []
   i = 0
 
